@@ -138,11 +138,11 @@ void myShakerSort()  //шейкерная сортировка
 //	while (leftMark<number)
 //	{ 		
 list *i = leftMark; //
-	while (i != RightMark) //
+	while (i != RightMark) //слева на право
 		{			
-			if (Check(i->next,i)) //
+			if (Check(i->next,i)) //сравнивает два эл
 			{
-				if(i == Head)
+				if(i == Head) //если указатель на голове
 				{
 					cout<<"qqqq  "<<endl;
 					list *woot = i->next; 
@@ -160,7 +160,7 @@ list *i = leftMark; //
 				}
 				else 
 				{
-					if( i == Tail) //îøèáêà
+					if( i == Tail) //если предпоследний
 					{
 						cout<<"yyy"<<endl;
 						list *qwee = i->next;						
@@ -179,7 +179,7 @@ list *i = leftMark; //
 					} 
 					else			
 					{
-						cout<<"oooo "<<endl;
+						cout<<"oooo "<<endl; //все ос
 						list *qwee = i->next;
 						list *prow = i->prev;
 						list *lop = qwee->next;
