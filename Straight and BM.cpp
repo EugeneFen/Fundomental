@@ -288,3 +288,15 @@ int main()
 	delete[] hotel2;
 	return 0;	
 }
+
+/*
+test data:
+7
+0 0 0 0  single 0 Fen_Evgenia_Vladimirovna
+0 0 0 0  four-seater 0 Strelnikova_Elena_Dmitrovna
+0 0 0 0  double 0 Fen_Vladir_Georgievich
+0 0 0 0  triple 0 Kiseleva_Tatiyana_Valentinovna
+0 0 0 0  four-seater 0 Fen_Georgiy_Valentinovich
+0 0 0 0  double 0 Kiseleva_Rita_Konstantinovna
+0 0 0 0  four-seater 0 Kiselev_Valentin_Nikan
+*/
