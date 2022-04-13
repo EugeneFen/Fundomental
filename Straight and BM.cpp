@@ -188,6 +188,31 @@ void BM(notebook *hotel, string pattern, int k, int size_mas)
 			hotel[a].good = true;
 		}
    }  
+	
+ for(int a=0; a<size_mas; a++)
+   {
+   	int count = 0;
+    int size_hotel = hotel[a].size.length(); 		
+    int j = 0;
+    
+    while (j <= size_hotel - size_pattern) 
+    {
+    	int i = size_pattern - 1;
+    	while(i >= 0 && pattern[i] == hotel[a].size[i + j]) i--;     
+      	if (i < 0) 
+		  {
+		  	j += BmGs[0];
+		  	count++;
+		  }
+        else if (BmGs[i] > BmBc[(int)(hotel[a].size[i + j]+127)] - size_pattern + 1 + i) j = j + BmGs[i];
+        else j = j + BmBc[(int)(hotel[a].fio[i + j]+127)] - size_pattern + 1 + i;
+	     
+    }
+    if(count == k) 
+		{
+			hotel[a].good = true;
+		}
+   }  
 };
 
 int main()
