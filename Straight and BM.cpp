@@ -38,8 +38,8 @@ void readFile(notebook *hotel)
 
 
 
-void straight(notebook *hotel, string pattern, int k, int size_mas) 
-{
+void straight_FIO(notebook *hotel, string pattern, int k, int size_mas) 
+{	
 	int size_pattern = pattern.length(); 
 	 
 	for(int i=0; i<size_mas; i++) 
@@ -66,6 +66,12 @@ void straight(notebook *hotel, string pattern, int k, int size_mas)
 			hotel[i].good = true;
 		}
 	} 	
+};
+
+void straight_Size(notebook *hotel, string pattern, int k, int size_mas)
+{
+		int size_pattern = pattern.length(); 
+		
 		for(int i=0; i<size_mas; i++) 
 	{
 		int count = 0; 
@@ -135,7 +141,7 @@ int* suffixes(string pattern)
  
 int* preBmGs(string pattern) 
 {
-	int size_pattern = pattern.length(); //m
+	int size_pattern = pattern.length(); 
 	int* bmGs = new int[size_pattern];
 	int* suffix = new int[size_pattern]; 
    suffix = suffixes(pattern);
@@ -155,7 +161,7 @@ int* preBmGs(string pattern)
 }
  
  
-void BM(notebook *hotel, string pattern, int k, int size_mas) 
+void BM_FIO(notebook *hotel, string pattern, int k, int size_mas) 
 {
 	int size_pattern = pattern.length(); //m
 	int* BmGs = new int[size_pattern];
@@ -185,11 +191,21 @@ void BM(notebook *hotel, string pattern, int k, int size_mas)
     }
     if(count == k) 
 		{
-			hotel[a].good = true;
+			hotel[a].good = true;		
 		}
    }  
+};
+
+void BM_Size(notebook *hotel, string pattern, int k, int size_mas) 
+{
+	int size_pattern = pattern.length(); //m
+	int* BmGs = new int[size_pattern];
+	int* BmBc = new int[255];
 	
- for(int a=0; a<size_mas; a++)
+	BmBc = preBmBc(pattern);
+	BmGs = preBmGs(pattern);
+   
+   for(int a=0; a<size_mas; a++)
    {
    	int count = 0;
     int size_hotel = hotel[a].size.length(); 		
@@ -205,21 +221,36 @@ void BM(notebook *hotel, string pattern, int k, int size_mas)
 		  	count++;
 		  }
         else if (BmGs[i] > BmBc[(int)(hotel[a].size[i + j]+127)] - size_pattern + 1 + i) j = j + BmGs[i];
-        else j = j + BmBc[(int)(hotel[a].fio[i + j]+127)] - size_pattern + 1 + i;
+        else j = j + BmBc[(int)(hotel[a].size[i + j]+127)] - size_pattern + 1 + i;
 	     
     }
     if(count == k) 
 		{
-			hotel[a].good = true;
+			hotel[a].good = true;			
 		}
    }  
 };
 
+void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas)
+{
+	cout<<"straight"<<endl;	
+	straight_FIO(hotel,pattern,k,size_mas);
+	straight_Size(hotel,Pattern,K,size_mas);
+
+};
+
+void BM(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas)
+{
+	cout<<"BM"<<endl;
+	BM_FIO(hotel,pattern,k,size_mas);
+	BM_Size(hotel,Pattern,K,size_mas);
+};
+
 int main()
 {
-	int number,k;                                       
-	string shablon;
-	ifstream file;                                    
+	int number,k,K;                                      
+	string shablon,Shablon;
+	ifstream file;                                   
 	file.open("note.txt");
 	if (file.is_open())
 	{
@@ -236,15 +267,18 @@ int main()
 	readFile(hotel);                                  
 	readFile(hotel2);  	
 	
-	cout<<"Enter pattern: ";
+	cout<<"Enter pattern for last name: ";
 	cin>>shablon;
 	cout<<"Enter k repetitions: ";
 	cin>>k; 
+	cout<<"Enter pattern for room type: ";
+	cin>>Shablon;
+	cout<<"Enter k repetitions: ";
+	cin>>K; 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	straight(hotel,shablon,k,number);
-	BM(hotel2,shablon,k,number) ;
-
+	straight(hotel,shablon,k,Shablon,K,number);
+	BM(hotel2,shablon,k,Shablon,K,number);
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	ofstream file1;                                       
@@ -269,7 +303,7 @@ int main()
 	file1.close();                                         
 	
 	ofstream file2;                                        
-	file2.open("output_2.txt", ios::out);                
+	file2.open("output_2.txt", ios::out);                  
 	if (file2.is_open())
 	{
 		for(int i=0; i<number; i++)
@@ -293,7 +327,6 @@ int main()
 	delete[] hotel2;
 	return 0;	
 }
-
 /*
 Teat text:
 0 0 0 0  single 0 Fen_Evgenia_Vladimirovna
