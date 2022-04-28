@@ -38,20 +38,18 @@ void readFile(notebook *hotel)
 
 
 
-void straight_FIO(notebook *hotel, string pattern, int k, int size_mas) 
+bool straight_FIO(notebook *hotel, string pattern, int k, int a) 
 {	
 	int size_pattern = pattern.length(); 
-	 
-	for(int i=0; i<size_mas; i++) 
-	{
+
 		int count = 0; 
-		int size_hotel = hotel[i].fio.length();  	
+		int size_hotel = hotel[a].fio.length();  	
 		int buff = -1; 
 		
 		do {
 			buff++;
 			int correspond = 0; 
-			while((correspond<size_pattern) && (hotel[i].fio[buff+correspond] == pattern[correspond])) 
+			while((correspond<size_pattern) && (hotel[a].fio[buff+correspond] == pattern[correspond])) 
 			{
 				correspond++;		
 			}
@@ -63,25 +61,23 @@ void straight_FIO(notebook *hotel, string pattern, int k, int size_mas)
 		   while(buff<size_hotel-size_pattern); 
 		if(count == k) 
 		{
-			hotel[i].good = true;
+			return true;
 		}
-	} 	
+		else return false;	
 };
 
-void straight_Size(notebook *hotel, string pattern, int k, int size_mas)
+bool straight_Size(notebook *hotel, string pattern, int k, int a)
 {
 		int size_pattern = pattern.length(); 
 		
-		for(int i=0; i<size_mas; i++) 
-	{
 		int count = 0; 
-		int size_hotel = hotel[i].size.length();  		
+		int size_hotel = hotel[a].size.length();  		
 		int buff = -1; 
 		
 		do {
 			buff++;
 			int correspond = 0; 
-			while((correspond<size_pattern) && (hotel[i].size[buff+correspond] == pattern[correspond])) 
+			while((correspond<size_pattern) && (hotel[a].size[buff+correspond] == pattern[correspond])) 
 			{
 				correspond++;			
 			}
@@ -93,9 +89,9 @@ void straight_Size(notebook *hotel, string pattern, int k, int size_mas)
 		   while(buff<size_hotel-size_pattern); 
 		if(count == k) 
 		{
-			hotel[i].good = true;
+			return true;
 		}
-	}
+		else return false;
 };
 
 int* preBmBc(string pattern) // good
@@ -161,7 +157,7 @@ int* preBmGs(string pattern)
 }
  
  
-void BM_FIO(notebook *hotel, string pattern, int k, int size_mas) 
+bool BM_FIO(notebook *hotel, string pattern, int k, int a) 
 {
 	int size_pattern = pattern.length(); //m
 	int* BmGs = new int[size_pattern];
@@ -169,9 +165,7 @@ void BM_FIO(notebook *hotel, string pattern, int k, int size_mas)
 	
 	BmBc = preBmBc(pattern);
 	BmGs = preBmGs(pattern);
-   
-   for(int a=0; a<size_mas; a++)
-   {
+
    	int count = 0;
     int size_hotel = hotel[a].fio.length(); 		
     int j = 0;
@@ -190,13 +184,13 @@ void BM_FIO(notebook *hotel, string pattern, int k, int size_mas)
 	     
     }
     if(count == k) 
-		{
-			hotel[a].good = true;		
-		}
-   }  
+	{
+		return true;
+	}
+	else return false;
 };
 
-void BM_Size(notebook *hotel, string pattern, int k, int size_mas) 
+bool BM_Size(notebook *hotel, string pattern, int k, int a) 
 {
 	int size_pattern = pattern.length(); //m
 	int* BmGs = new int[size_pattern];
@@ -205,8 +199,6 @@ void BM_Size(notebook *hotel, string pattern, int k, int size_mas)
 	BmBc = preBmBc(pattern);
 	BmGs = preBmGs(pattern);
    
-   for(int a=0; a<size_mas; a++)
-   {
    	int count = 0;
     int size_hotel = hotel[a].size.length(); 		
     int j = 0;
@@ -225,25 +217,59 @@ void BM_Size(notebook *hotel, string pattern, int k, int size_mas)
 	     
     }
     if(count == k) 
-		{
-			hotel[a].good = true;			
-		}
-   }  
+	{
+		return true;			
+	}
+	else return false;
+ 
 };
 
 void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas)
 {
-	cout<<"straight"<<endl;	
-	straight_FIO(hotel,pattern,k,size_mas);
-	straight_Size(hotel,Pattern,K,size_mas);
-
+	ofstream file1;                                       
+	file1.open("output_1.txt", ios::out);
+	if (file1.is_open())
+	{
+		for(int i=0; i<size_mas; i++)
+		{
+			if(straight_FIO(hotel,pattern,k,i) || straight_Size(hotel,Pattern,K,i))		
+			{
+				file1<<hotel[i].day<<"  ";
+        		file1<<hotel[i].month<<"  ";
+        		file1<<hotel[i].year<<"  ";
+        		file1<<hotel[i].longDay<<"  ";
+        		file1<<hotel[i].size<<"  ";
+        		file1<<hotel[i].telephone<<"  ";
+        		file1<<hotel[i].fio<<"\n";
+			}	
+		}
+		cout<<"File open!"<<endl;
+	}
+	file1.close();
 };
 
-void BM(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas)
+void BM(notebook *hotel2, string pattern, int k, string Pattern, int K, int size_mas)
 {
-	cout<<"BM"<<endl;
-	BM_FIO(hotel,pattern,k,size_mas);
-	BM_Size(hotel,Pattern,K,size_mas);
+	ofstream file2;                                        
+	file2.open("output_2.txt", ios::out);                  
+	if (file2.is_open())
+	{
+		for(int i=0; i<size_mas; i++)
+		{
+			if(BM_FIO(hotel2,pattern,k,i) || BM_Size(hotel2,Pattern,K,i))	
+			{
+				file2<<hotel2[i].day<<"  ";
+        		file2<<hotel2[i].month<<"  ";
+        		file2<<hotel2[i].year<<"  ";
+        		file2<<hotel2[i].longDay<<"  ";
+        		file2<<hotel2[i].size<<"  ";
+        		file2<<hotel2[i].telephone<<"  ";
+        		file2<<hotel2[i].fio<<"\n";
+			}	
+		}
+		cout<<"File open!"<<endl;
+	}
+	file2.close();
 };
 
 int main()
@@ -280,48 +306,7 @@ int main()
 	straight(hotel,shablon,k,Shablon,K,number);
 	BM(hotel2,shablon,k,Shablon,K,number);
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	ofstream file1;                                       
-	file1.open("output_1.txt", ios::out);                 
-	if (file1.is_open())
-	{
-		for(int i=0; i<number; i++)
-		{
-			if(hotel[i].good == true)	
-			{
-				file1<<hotel[i].day<<"  ";
-        		file1<<hotel[i].month<<"  ";
-        		file1<<hotel[i].year<<"  ";
-        		file1<<hotel[i].longDay<<"  ";
-        		file1<<hotel[i].size<<"  ";
-        		file1<<hotel[i].telephone<<"  ";
-        		file1<<hotel[i].fio<<"\n";
-			}	
-		}
-		cout<<"File open!"<<endl;
-	}
-	file1.close();                                         
-	
-	ofstream file2;                                        
-	file2.open("output_2.txt", ios::out);                  
-	if (file2.is_open())
-	{
-		for(int i=0; i<number; i++)
-		{
-			if(hotel2[i].good == true)	
-			{
-				file2<<hotel2[i].day<<"  ";
-        		file2<<hotel2[i].month<<"  ";
-        		file2<<hotel2[i].year<<"  ";
-        		file2<<hotel2[i].longDay<<"  ";
-        		file2<<hotel2[i].size<<"  ";
-        		file2<<hotel2[i].telephone<<"  ";
-        		file2<<hotel2[i].fio<<"\n";
-			}	
-		}
-		cout<<"File open!"<<endl;
-	}
-	file2.close();                                         
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                 
   	
 	delete[] hotel; 
 	delete[] hotel2;
