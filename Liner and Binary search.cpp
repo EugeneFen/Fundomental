@@ -9,7 +9,7 @@ struct notebook
 	string telephone, fio;
 };
 
-void readFile(notebook *hotel)
+void readFile(notebook *hotel) //Выписываем из файла данные
 {
 	int Size;                      
 	ifstream file;                 
@@ -35,7 +35,7 @@ void readFile(notebook *hotel)
 	file.close();                  
 };
 
-bool Check (notebook Hotel, notebook Hotel2)
+bool Check (notebook Hotel, notebook Hotel2) //проверка для сортировки
 {
 	if (Hotel.longDay == Hotel2.longDay)
 	{
@@ -62,7 +62,7 @@ bool Check (notebook Hotel, notebook Hotel2)
 
 }
 
-void qsortRecursive(notebook *hotel,int m, int l ) //быстрая  
+void qsortRecursive(notebook *hotel,int m, int l ) //быстрая  сортировка
 {    
     int i = m; //указатель в начало масива
     int j = l; //указатель в конец масива
@@ -92,7 +92,7 @@ void qsortRecursive(notebook *hotel,int m, int l ) //быстрая
     } 
 }
 
-int Liner_search(notebook *hotel, int a, int key)
+int Liner_search(notebook *hotel, int a, int key) //Линейный
 {
 	int count = 0;
     for (int i = 0; i < a; i++)
@@ -107,7 +107,7 @@ int Liner_search(notebook *hotel, int a, int key)
     return -1;
 }
 
-int Binary_search(notebook *hotel, int l, int a, int key, int count)
+int Binary_search(notebook *hotel, int l, int a, int key, int count) //Бинарный
 {
 	if (a >= l)
 	{
@@ -136,7 +136,7 @@ int Binary_search(notebook *hotel, int l, int a, int key, int count)
 	return -1;
 }
 
-void Search_linear(notebook *hotel, int a,int key)
+void Search_linear(notebook *hotel, int a,int key) //линейный поиск
 {
 ///////////////////////////////////////////////////////////////////////////////////
 	int Result = Liner_search(hotel,a,key);	
@@ -161,7 +161,7 @@ void Search_linear(notebook *hotel, int a,int key)
 	file.close();
 };
 
-void Search_Binary(notebook *hotel, int a,int key)
+void Search_Binary(notebook *hotel, int a,int key) //бинарный поиск
 {
 ///////////////////////////////////////////////////////////////////////////////////
 	int count = 0;
@@ -212,7 +212,6 @@ int main()
 	readFile(hotel); 
 	readFile(hotel2); 
 	
-	qsortRecursive(hotel,0,number - 1);
 	qsortRecursive(hotel2,0,number - 1);
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  		
@@ -228,6 +227,7 @@ int main()
 	delete[] hotel2;
 	return 0;
 }
+
 
 /* Text file:
 6
