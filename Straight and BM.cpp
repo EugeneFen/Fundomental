@@ -9,7 +9,7 @@ struct notebook
 	string telephone, fio, size;
 };
 
-void readFile(notebook *hotel)
+void readFile(notebook *hotel) //чтение из файла
 {
 	int Size;                      
 	ifstream file;                 
@@ -34,7 +34,7 @@ void readFile(notebook *hotel)
 	file.close();                  
 };
 
-bool straight_FIO(notebook *hotel, string pattern, int k, int a, int size_pattern) 
+bool straight_FIO(notebook *hotel, string pattern, int k, int a, int size_pattern) //прямой поиск
 {	
 		int count = 0; 
 		int size_hotel = hotel[a].fio.length();  	
@@ -60,7 +60,7 @@ bool straight_FIO(notebook *hotel, string pattern, int k, int a, int size_patter
 		else return false;	
 };
 
-bool straight_Size(notebook *hotel, string pattern, int k, int a, int size_pattern)
+bool straight_Size(notebook *hotel, string pattern, int k, int a, int size_pattern) //прямой поиск
 {
 		int count = 0; 
 		int size_hotel = hotel[a].size.length();  		
@@ -86,7 +86,7 @@ bool straight_Size(notebook *hotel, string pattern, int k, int a, int size_patte
 		else return false;
 };
 
-int* preBmBc(string pattern) // good
+int* preBmBc(string pattern) // таблица сдвигов
 {
 	int pattern_size = pattern.length();	
 	int* table = new int[255];
@@ -102,7 +102,7 @@ int* preBmBc(string pattern) // good
 	return table;
 };
 
-int* suffixes(string pattern) 
+int* suffixes(string pattern) //таблица суффиксов
 {	
 	int size_pattern = pattern.length(); 
 	int* suff = new int[size_pattern];
@@ -127,7 +127,7 @@ int* suffixes(string pattern)
    return suff;
 }
  
-int* preBmGs(string pattern) 
+int* preBmGs(string pattern) //таблица префиксов
 {
 	int size_pattern = pattern.length(); 
 	int* bmGs = new int[size_pattern];
@@ -148,7 +148,7 @@ int* preBmGs(string pattern)
     return bmGs;
 } 
  
-bool BM_FIO(notebook *hotel, string pattern, int k, int a, int *BmGs, int *BmBc, int size_pattern) 
+bool BM_FIO(notebook *hotel, string pattern, int k, int a, int *BmGs, int *BmBc, int size_pattern) //БМ 
 {
    	int count = 0;
     int size_hotel = hotel[a].fio.length(); 		
@@ -174,7 +174,7 @@ bool BM_FIO(notebook *hotel, string pattern, int k, int a, int *BmGs, int *BmBc,
 	else return false;
 };
 
-bool BM_Size(notebook *hotel, string pattern, int k, int a,int *BmGs,int *BmBc,int size_pattern) 
+bool BM_Size(notebook *hotel, string pattern, int k, int a,int *BmGs,int *BmBc,int size_pattern) //БМ
 {   
    	int count = 0;
     int size_hotel = hotel[a].size.length(); 		
@@ -201,7 +201,7 @@ bool BM_Size(notebook *hotel, string pattern, int k, int a,int *BmGs,int *BmBc,i
  
 };
 
-void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas)
+void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas) //прямой поиск
 {
 	int size_pattern = pattern.length(); 
 	
@@ -227,14 +227,14 @@ void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int
 	file1.close();
 };
 
-void BM(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas)
+void BM(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas) //БМ поиск
 {
 	int size_pattern = pattern.length(); //m
 	int* BmGs = new int[size_pattern]; 
 	int* BmBc = new int[255]; 
 	
-	BmBc = preBmBc(pattern);
-	BmGs = preBmGs(pattern);
+	BmBc = preBmBc(pattern); //создаем первую таблицу
+	BmGs = preBmGs(pattern); //создаем вторую таблицу
 	
 	ofstream file2;                                        
 	file2.open("output_2.txt", ios::out);                  
