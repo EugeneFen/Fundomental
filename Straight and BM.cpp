@@ -7,7 +7,6 @@ struct notebook
 {
 	int day, month, year,longDay;  
 	string telephone, fio, size;
-	bool good;
 };
 
 void readFile(notebook *hotel)
@@ -27,7 +26,6 @@ void readFile(notebook *hotel)
 			file>>hotel[i].size;
 			file>>hotel[i].telephone; 
 			file>>hotel[i].fio;
-			hotel[i].good = false;
 		}
 	}
 	else {
@@ -36,12 +34,8 @@ void readFile(notebook *hotel)
 	file.close();                  
 };
 
-
-
-bool straight_FIO(notebook *hotel, string pattern, int k, int a) 
+bool straight_FIO(notebook *hotel, string pattern, int k, int a, int size_pattern) 
 {	
-	int size_pattern = pattern.length(); 
-
 		int count = 0; 
 		int size_hotel = hotel[a].fio.length();  	
 		int buff = -1; 
@@ -66,10 +60,8 @@ bool straight_FIO(notebook *hotel, string pattern, int k, int a)
 		else return false;	
 };
 
-bool straight_Size(notebook *hotel, string pattern, int k, int a)
+bool straight_Size(notebook *hotel, string pattern, int k, int a, int size_pattern)
 {
-		int size_pattern = pattern.length(); 
-		
 		int count = 0; 
 		int size_hotel = hotel[a].size.length();  		
 		int buff = -1; 
@@ -154,18 +146,10 @@ int* preBmGs(string pattern)
       bmGs[size_pattern - 1 - suffix[i]] = size_pattern - 1 - i;
       
     return bmGs;
-}
+} 
  
- 
-bool BM_FIO(notebook *hotel, string pattern, int k, int a) 
+bool BM_FIO(notebook *hotel, string pattern, int k, int a, int *BmGs, int *BmBc, int size_pattern) 
 {
-	int size_pattern = pattern.length(); //m
-	int* BmGs = new int[size_pattern];
-	int* BmBc = new int[255];
-	
-	BmBc = preBmBc(pattern);
-	BmGs = preBmGs(pattern);
-
    	int count = 0;
     int size_hotel = hotel[a].fio.length(); 		
     int j = 0;
@@ -190,15 +174,8 @@ bool BM_FIO(notebook *hotel, string pattern, int k, int a)
 	else return false;
 };
 
-bool BM_Size(notebook *hotel, string pattern, int k, int a) 
-{
-	int size_pattern = pattern.length(); //m
-	int* BmGs = new int[size_pattern];
-	int* BmBc = new int[255];
-	
-	BmBc = preBmBc(pattern);
-	BmGs = preBmGs(pattern);
-   
+bool BM_Size(notebook *hotel, string pattern, int k, int a,int *BmGs,int *BmBc,int size_pattern) 
+{   
    	int count = 0;
     int size_hotel = hotel[a].size.length(); 		
     int j = 0;
@@ -226,13 +203,15 @@ bool BM_Size(notebook *hotel, string pattern, int k, int a)
 
 void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas)
 {
+	int size_pattern = pattern.length(); 
+	
 	ofstream file1;                                       
 	file1.open("output_1.txt", ios::out);
 	if (file1.is_open())
 	{
 		for(int i=0; i<size_mas; i++)
 		{
-			if(straight_FIO(hotel,pattern,k,i) || straight_Size(hotel,Pattern,K,i))		
+			if(straight_FIO(hotel,pattern,k,i,size_pattern) || straight_Size(hotel,Pattern,K,i,size_pattern))		
 			{
 				file1<<hotel[i].day<<"  ";
         		file1<<hotel[i].month<<"  ";
@@ -248,23 +227,30 @@ void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int
 	file1.close();
 };
 
-void BM(notebook *hotel2, string pattern, int k, string Pattern, int K, int size_mas)
+void BM(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas)
 {
+	int size_pattern = pattern.length(); //m
+	int* BmGs = new int[size_pattern]; 
+	int* BmBc = new int[255]; 
+	
+	BmBc = preBmBc(pattern);
+	BmGs = preBmGs(pattern);
+	
 	ofstream file2;                                        
 	file2.open("output_2.txt", ios::out);                  
 	if (file2.is_open())
 	{
 		for(int i=0; i<size_mas; i++)
 		{
-			if(BM_FIO(hotel2,pattern,k,i) || BM_Size(hotel2,Pattern,K,i))	
+			if(BM_FIO(hotel,pattern,k,i,BmGs,BmBc,size_pattern) || BM_Size(hotel,Pattern,K,i,BmGs,BmBc,size_pattern))	
 			{
-				file2<<hotel2[i].day<<"  ";
-        		file2<<hotel2[i].month<<"  ";
-        		file2<<hotel2[i].year<<"  ";
-        		file2<<hotel2[i].longDay<<"  ";
-        		file2<<hotel2[i].size<<"  ";
-        		file2<<hotel2[i].telephone<<"  ";
-        		file2<<hotel2[i].fio<<"\n";
+				file2<<hotel[i].day<<"  ";
+        		file2<<hotel[i].month<<"  ";
+        		file2<<hotel[i].year<<"  ";
+        		file2<<hotel[i].longDay<<"  ";
+        		file2<<hotel[i].size<<"  ";
+        		file2<<hotel[i].telephone<<"  ";
+        		file2<<hotel[i].fio<<"\n";
 			}	
 		}
 		cout<<"File open!"<<endl;
@@ -288,10 +274,8 @@ int main()
 	}
 	file.close();                                      
 	                                                   
-	notebook *hotel=new notebook[number];             
-	notebook *hotel2=new notebook[number];
-	readFile(hotel);                                  
-	readFile(hotel2);  	
+	notebook *hotel=new notebook[number];
+	readFile(hotel);                                   	
 	
 	cout<<"Enter pattern for last name: ";
 	cin>>shablon;
@@ -304,12 +288,11 @@ int main()
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	straight(hotel,shablon,k,Shablon,K,number);
-	BM(hotel2,shablon,k,Shablon,K,number);
+	BM(hotel,shablon,k,Shablon,K,number);
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                 
   	
-	delete[] hotel; 
-	delete[] hotel2;
+	delete[] hotel;
 	return 0;	
 }
 /*
