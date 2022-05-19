@@ -233,8 +233,15 @@ void BM(notebook *hotel, string pattern, int k, string Pattern, int K, int size_
 	int* BmGs = new int[size_pattern]; 
 	int* BmBc = new int[255]; 
 	
+	int size_pattern2 = Pattern.length(); //m
+	int* BmGs2 = new int[size_pattern2]; 
+	int* BmBc2 = new int[255]; 
+	
 	BmBc = preBmBc(pattern); //создаем первую таблицу
 	BmGs = preBmGs(pattern); //создаем вторую таблицу
+	
+	BmBc2 = preBmBc(Pattern); //создаем первую таблицу
+	BmGs2 = preBmGs(Pattern); //создаем вторую таблицу
 	
 	ofstream file2;                                        
 	file2.open("output_2.txt", ios::out);                  
@@ -242,7 +249,7 @@ void BM(notebook *hotel, string pattern, int k, string Pattern, int K, int size_
 	{
 		for(int i=0; i<size_mas; i++)
 		{
-			if(BM_FIO(hotel,pattern,k,i,BmGs,BmBc,size_pattern) || BM_Size(hotel,Pattern,K,i,BmGs,BmBc,size_pattern))	
+			if(BM_FIO(hotel,pattern,k,i,BmGs,BmBc,size_pattern) || BM_Size(hotel,Pattern,K,i,BmGs2,BmBc2,size_pattern2))	
 			{
 				file2<<hotel[i].day<<"  ";
         		file2<<hotel[i].month<<"  ";
