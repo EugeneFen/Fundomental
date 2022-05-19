@@ -203,7 +203,8 @@ bool BM_Size(notebook *hotel, string pattern, int k, int a,int *BmGs,int *BmBc,i
 
 void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas) //прямой поиск
 {
-	int size_pattern = pattern.length(); 
+	int size_pattern = pattern.length();
+	int size_pattern2 = Pattern.length();
 	
 	ofstream file1;                                       
 	file1.open("output_1.txt", ios::out);
@@ -211,7 +212,7 @@ void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int
 	{
 		for(int i=0; i<size_mas; i++)
 		{
-			if(straight_FIO(hotel,pattern,k,i,size_pattern) || straight_Size(hotel,Pattern,K,i,size_pattern))		
+			if(straight_FIO(hotel,pattern,k,i,size_pattern) || straight_Size(hotel,Pattern,K,i,size_pattern2))		
 			{
 				file1<<hotel[i].day<<"  ";
         		file1<<hotel[i].month<<"  ";
