@@ -70,7 +70,7 @@ class Hash
   
 	public:
 			
-	Hash(int value) //êîíñòðóêòîð
+	Hash(int value) 
 	{
 		buffer_size = value;
 		size = 0;
@@ -84,7 +84,7 @@ class Hash
 		}
 	}
 		
-	bool Add(Notebook hotel) //äîáàâëåíèå
+	bool Add(Notebook hotel) 
 	{
 		if (size+1 > rehash_size*buffer_size) Resize();
 		else if(size_all_non_nullptr > size*2) Rehash();
@@ -132,7 +132,7 @@ class Hash
 		return true;
 	}
 		
-	bool Del(int value) //óäàëåíèå
+	bool Del(int value) 
 	{
 		int index = Hash_One_Function(value);
 		int two_index = index;
@@ -153,7 +153,7 @@ class Hash
 		return false;
 	}
 	
-	int Search(int value) //ïîèñê
+	int Search(int value) 
 	{
 		int index = Hash_One_Function(value);
 		int two_index = index;
@@ -170,7 +170,7 @@ class Hash
 		return -1;
 	}	
 		
-	void Write_Table() //âûïèñûâàíèå â ôàéë
+	void Write_Table() 
 	{
 			ofstream file1;
 			file1.open("output_1.txt", ios::out);
@@ -201,7 +201,7 @@ class Hash
        	file1.close();
 	}
 		
-	~Hash() //äèñòðóêòîð
+	~Hash()
 	{
 		delete[] table;
 	}; 
