@@ -77,7 +77,7 @@ class Hash
 		return -1;
 	}
 	
-	int Decision(int index, int value)
+	int Decision(int index, int value, string name)
 	{
 		int two_index = index;
 		int i = 0;
@@ -85,7 +85,7 @@ class Hash
 		while(i<buffer_size)
 		{
 			two_index = Hash_Two_Function(index,j);
-			if (table[two_index].telephone == value && table[two_index].state == 1) return two_index;			
+			if (table[two_index].telephone == value && table[two_index].state == 1 && table[two_index].fio == name) return two_index;			
 			i++;
 			j++;
 			cout<<two_index<<" index del"<<endl;
@@ -171,18 +171,18 @@ class Hash
 		return false;
 	}
 		
-	bool Del(int value) //удаление
+	bool Del(int value, string name) //удаление
 	{
 		int index = Hash_One_Function(value);
 		cout<<index<<" index two "<<endl;
-		if (table[index].telephone == value && table[index].state == 1)
+		if (table[index].telephone == value && table[index].state == 1 && table[index].fio == name)
 			{
 				table[index].state = 2;
 				return true;
 			}
 			else
 			{
-				int two_index = Decision(index, value);
+				int two_index = Decision(index, value, name);
 				if (two_index >= 0)
 				{
 					table[two_index].state = 2;
