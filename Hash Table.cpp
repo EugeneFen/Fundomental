@@ -40,7 +40,6 @@ void Read_File(Notebook *hotel)
 class Hash
 {
 	Notebook *table;
-	int size; //сколько эл добавленно
 	int buffer_size; //размер самого массива
   	
   	int Hash_One_Function(int key) //первияная хеш-функция
