@@ -40,10 +40,10 @@ void Read_File(Notebook *hotel)
 class Hash
 {
 	Notebook *table;
-	int size; //ñêîëüêî ýë äîáàâëåííî
-	int buffer_size; //ðàçìåð ñàìîãî ìàññèâà
+	int size; //сколько эл добавленно
+	int buffer_size; //размер самого массива
   	
-  	int Hash_One_Function(int key) //ïåðâèÿíàÿ õåø-ôóíêöèÿ
+  	int Hash_One_Function(int key) //первияная хеш-функция
 	{
 		return (key % buffer_size);
 	}	
@@ -95,7 +95,7 @@ class Hash
 	
 	public:
 			
-	Hash(int value) //êîíñòðóêòîð
+	Hash(int value) //конструктор
 	{
 		buffer_size = value;
 		table = new Notebook[buffer_size];
@@ -107,7 +107,7 @@ class Hash
 		}
 	}
 		
-	bool Add(Notebook hotel) //äîáàâëåíèå
+	bool Add(Notebook hotel) //добавление
 	{		
 		int index = Hash_One_Function(hotel.telephone);
 		cout<<index<<":index first"<<endl;
@@ -171,7 +171,7 @@ class Hash
 		return false;
 	}
 		
-	bool Del(int value) //óäàëåíèå
+	bool Del(int value) //удаление
 	{
 		int index = Hash_One_Function(value);
 		cout<<index<<" index two "<<endl;
@@ -193,7 +193,7 @@ class Hash
 		return false;
 	}
 	
-	int Search(int value) //ïîèñê
+	int Search(int value) //поиск
 	{
 		int index = Hash_One_Function(value);
 		int two_index = index;
@@ -202,6 +202,7 @@ class Hash
 		while(table[two_index].telephone != 0 && i<buffer_size)
 		{
 			j++;
+			cout<<two_index<<" index 8"<<endl;
 			if (table[two_index].telephone == value && table[two_index].state == 1)
 			return two_index;
 			two_index = Hash_Two_Function(index,j);
@@ -210,7 +211,7 @@ class Hash
 		return -1;
 	}	
 		
-	void Write_Table() //âûïèñûâàíèå â ôàéë
+	void Write_Table() //выписывание в файл
 	{
 			ofstream file1;
 			file1.open("output_1.txt", ios::out);
@@ -234,7 +235,7 @@ class Hash
        	file1.close();
 	}
 		
-	~Hash() //äèñòðóêòîð
+	~Hash() //диструктор
 	{
 		delete[] table;
 	}; 
@@ -296,7 +297,8 @@ void Start(Hash a, Notebook *hotel, int size_hotel)
 		a.Write_Table();
 		cout<<"Ok"<<endl;
 	}
-	break;	
+	break;
+	default: cout<<" Exit "<<endl;
 	}
 	} while (N != 5);
 }
@@ -316,17 +318,14 @@ int main()
 	}
 	file1.close();	
 	Notebook *hotel = new Notebook[number];	
-	Read_File(hotel);	
-	Write_Hotel(hotel,number);
+	Read_File(hotel);
 	
 	Hash a(number);
 	Start(a,hotel,number);
 	
 	delete[] hotel;
 	return 0;
-	delete[] table;
-}; 
-
+}
 
 /*
 text file:
