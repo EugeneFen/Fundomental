@@ -7,16 +7,16 @@ using namespace std;
 class Graf
 {
 	private:
-		int **distance; //ðàñòîÿíèå
-		string *name; //íàçâàíèÿ
-		int vertex; // êîëè÷åñòâî ðåáåð è âåðøèí
-		bool *visited;
-		bool *used;
-		queue <int> peak;
-		queue <int> track;
+		int **distance; //растояние
+		string *name; //имена вершин
+		int vertex; // сколько вершин
+		bool *visited; 
+		bool *used; 
+		queue <int> peak; //для одхода
+		queue <int> track; //для алгоритма Прима
 		
 	public:
-		Graf()
+		Graf() //конструктор
 		{
 			string letter_1, letter_2;
 			int value,k,t;
@@ -26,32 +26,32 @@ class Graf
 			if (file.is_open())           
 			{
 				cout<<"File open."<<endl;
-				file>>vertex; //ñêîëüêî èìåí â ãðàôå
+				file>>vertex; //первая строка. число вершин
 				
 				visited = new bool[vertex];				
-				name = new string[vertex];	//âûäåëÿåì ïàìÿòü äëÿ èìåí				
-				distance = new int* [vertex]; //êîëè÷åñòâî ñòðîê â ìàñèâå				
+				name = new string[vertex];				
+				distance = new int* [vertex];				
 				for (int i = 0; i<vertex; i++)
-					distance[i] = new int[vertex]; //êîëè÷åñòâî ñòîëáöîâ â ìàñèâå
+					distance[i] = new int[vertex];
 				
-				for(int i=0; i<vertex; i++) //çàïîëíÿåì ìàñèâ èìåí
+				for(int i=0; i<vertex; i++) //читаем вершины из файла
 					file>>name[i];
 				
 				for(int i=0; i<vertex; i++)
 					for(int j=0; j<vertex; j++)
-						distance[i][j] = 0;
+						distance[i][j] = 0; //изначально растояние между вершинам 0
 				
-				while(!file.eof()) //  feof(file)
+				while(!file.eof()) //  пока не конец файла читаем между какими вершинами какие растояния
 				{
-					file>>letter_1;
-					file>>letter_2;
-					file>>value;
-					for(int i=0; i<vertex; i++)
+					file>>letter_1; //вершина 1
+					file>>letter_2; //вершина 2
+					file>>value; //растояние между вершиной 1 и вершиной 2
+					for(int i=0; i<vertex; i++) //ищем в масиве вершина индекс вершины 1 и вершины 2
 					{
 						if(letter_1 == name[i]) k=i;
 						if(letter_2 == name[i]) t=i;
 					}
-					distance[k][t] = value;
+					distance[k][t] = value; //добавляем растояние в таблицу
 					distance[t][k] = value;
 				}
 			}
@@ -59,7 +59,7 @@ class Graf
 			file.close(); 
 		}
 		
-		void Dfs(int value)
+		void Dfs(int value) //обход в глубину
 		{
 			peak.push(value);
 			visited[value] = true;				
@@ -72,7 +72,7 @@ class Graf
 			}
 		};
 		
-		void Write_Dfs()
+		void Write_Dfs() //запись обхода в файл
 		{
 			ofstream file;                                        
 			file.open("output1.txt", ios::out);
@@ -93,7 +93,7 @@ class Graf
 			file.close();
 		}
 		
-		void Prim(int value)
+		void Prim(int value) //алгоритм Прима.
 		{
 			used = new bool[vertex];		
 			for (int i=0; i<vertex; i++) used[i] = false;			
@@ -114,7 +114,7 @@ class Graf
 			}
 		}
 		
-		void Write_prim()
+		void Write_prim() //вывод алгоритма Прима в файл
 		{
 			ofstream file;                                        
 			file.open("output2.txt", ios::out);
@@ -134,7 +134,7 @@ class Graf
 			file.close();
 		}
 		
-		void Write_graf()
+		void Write_graf() //вывод графа в файл
 		{
 			ofstream file;                                        
 			file.open("output.txt", ios::out);
@@ -162,9 +162,9 @@ class Graf
 			file.close();
 		}
 		
-		~Graf()
+		~Graf() //диструктор
 		{
-			for (int i = 0; i<vertex; i++) //óäâëåíèå ñîëáöîâ ìàñèâà
+			for (int i = 0; i<vertex; i++) 
 			{
 			    delete[] distance[i];	    
 			}
