@@ -40,6 +40,7 @@ void Read_File(Notebook *hotel)
 class Hash
 {
 	Notebook *table;
+	int size; //сколько эл добавленно
 	int buffer_size; //размер самого массива
   	
   	int Hash_One_Function(int key) //первияная хеш-функция
@@ -61,7 +62,8 @@ class Hash
 		{
 			two_index = Hash_Two_Function(index,j);
 			cout<<two_index<<" :index add"<<endl;
-			if (table[two_index].state == 0) return two_index;
+			if (table[two_index].telephone == buff) return -1;
+			else if (table[two_index].state == 0) return two_index;
 			else if (table[two_index].state == 2)
 			{
 				if(Search(buff) < 0)
@@ -91,6 +93,7 @@ class Hash
 		}
 		return -1;
 	}
+	
 	
 	public:
 			
@@ -199,12 +202,11 @@ class Hash
 		int i = 0;
 		int j = 1;		
 		while(table[two_index].telephone != 0 && i<buffer_size)
-		{
-			j++;
+		{			
 			cout<<two_index<<" index 8"<<endl;
-			if (table[two_index].telephone == value && table[two_index].state == 1)
-			return two_index;
+			if (table[two_index].telephone == value && table[two_index].state == 1) return two_index;
 			two_index = Hash_Two_Function(index,j);
+			j++;
 			i++;
 		}
 		return -1;
@@ -266,6 +268,7 @@ void Start(Hash a, Notebook *hotel, int size_hotel)
 	Notebook date;
 	cout<<"Enter the variable you want to add:  ";
 	cin>>date.telephone;
+	//date.telephone = 0;
 	if (a.Add(date)) cout<<"Good"<<endl;
 	else cout<<"Not good"<<endl;
 	}
@@ -274,19 +277,23 @@ void Start(Hash a, Notebook *hotel, int size_hotel)
 	case 2: 
 	{
 	int snils;
-	cout<<"Enter the variable you want to search: ";
-	cin>>snils;
+	cout<<"Enter the variable you want to search: ";	
+//	cin>>snils;
+	snils = -1;
+
 	if (a.Search(snils) >= 0) cout<<"Index variable in hash table: "<<a.Search(snils)<<endl;
-	else cout<<"this variable is not in the table!"<<endl;
+	else cout<<"this variable is not in the table!"<<a.Search(snils)<<endl;
 	}
 	break;
 	
 	case 3:
 	{
 	int memories;
+	string name;
 	cout<<"Enter the variable you want to delete: ";
 	cin>>memories;
-	if (a.Del(memories)) cout<<"Variable removed"<<endl;
+	cin>>name;
+	if (a.Del(memories, name)) cout<<"Variable removed"<<endl;
 	else cout<<"Variable not deleted"<<endl;
 	}
 	break;
@@ -296,8 +303,7 @@ void Start(Hash a, Notebook *hotel, int size_hotel)
 		a.Write_Table();
 		cout<<"Ok"<<endl;
 	}
-	break;
-	default: cout<<" Exit "<<endl;
+	break;	
 	}
 	} while (N != 5);
 }
@@ -317,7 +323,17 @@ int main()
 	}
 	file1.close();	
 	Notebook *hotel = new Notebook[number];	
-	Read_File(hotel);
+	Read_File(hotel);	
+	//Write_Hotel(hotel,number);
+	
+/*	for(int i=0; i<number; i++)
+	{
+		hotel[i].telephone = "";
+		hotel[i].state = true;
+	}	
+	*/
+	
+	
 	
 	Hash a(number);
 	Start(a,hotel,number);
