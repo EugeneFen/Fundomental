@@ -3,21 +3,27 @@
 #include <string>
 using namespace std;
 
-struct notebook 
+/*
+Реализовать два алгоритма поиска подстроки в строке: Прямой и Бойера-Мура, 
+при этом подстрока должна содержаться в строке k-раз и подстрока должна находиться хотя бы в одном поле.
+Поиск происходит по двум полям: ФИО и тип номера.
+*/
+
+struct notebook                                     //данны хранящиеся в файле
 {
 	int day, month, year,longDay;  
 	string telephone, fio, size;
 };
 
-void readFile(notebook *hotel) //чтение из файла
+void readFile(notebook *hotel)                       //чтение из файла данных
 {
 	int Size;                      
 	ifstream file;                 
-	file.open("note.txt");
-	if (file.is_open())           
+	file.open("note.txt");                       //открываем файл для чтения
+	if (file.is_open())                          //если файл открыт, то начинаем чтение
 	{
-		file>>Size;                
-		for(int i=0; i<Size; i++)
+		file>>Size;                          //первая строка в файле - это сколько у нас записей
+		for(int i=0; i<Size; i++)            //циклом читаем данные, которые расположены через пробел
 		{   
 			file>>hotel[i].day;	
 			file>>hotel[i].month;  
@@ -25,35 +31,37 @@ void readFile(notebook *hotel) //чтение из файла
 			file>>hotel[i].longDay;
 			file>>hotel[i].size;
 			file>>hotel[i].telephone; 
-			file>>hotel[i].fio;
+			file>>hotel[i].fio;          //после последнего слова нет пробела
 		}
 	}
-	else {
+	else                                         //если файл небыл открыт, ты выдаем сообщение об ошибке
+	{
 		cout<<"file is not open";  
 	}
-	file.close();                  
+	file.close();                                //обязательно закрываем файл
 };
 
-bool straight_FIO(notebook *hotel, string pattern, int k, int a, int size_pattern) //прямой поиск
+bool straight_FIO(notebook *hotel, string pattern, int k, int a, int size_pattern) //прямой поиск по фамилии
 {	
-		int count = 0; 
-		int size_hotel = hotel[a].fio.length();  	
-		int buff = -1; 
+		int count = 0;                                  //счетчик шаблонов в строке
+		int size_hotel = hotel[a].fio.length();  	//колличество символов в "Фамилия" (или размер "Фамилия")
+		int buff = -1;                                  //с помощью нее смотрим, чтобы последнии символы шаблона невышли за границу строки "фамилия"
 		
 		do {
 			buff++;
-			int correspond = 0; 
+			int correspond = 0;                     //счетчик совпадающих символов в строках "Фамилия" и шаблон
 			while((correspond<size_pattern) && (hotel[a].fio[buff+correspond] == pattern[correspond])) 
 			{
-				correspond++;		
+				correspond++;		        //проходим по шаблону и сравниваем каждый его символ с символами строки "Фамилия"
 			}
-			if(correspond == size_pattern) 
+			if(correspond == size_pattern)          //если нашли совпадение шаблона и строки "Фамилия", то увеличиваем счетчик шаблонов
 			{
 				count++;
 			}
-	       } 
-		   while(buff<size_hotel-size_pattern); 
-		if(count == k) 
+	           } 
+		while(buff<size_hotel-size_pattern);            //пока не дошли до конца строки
+	
+		if(count == k)                                  //если нашли нужное колличество шаблонов с строке, то истина
 		{
 			return true;
 		}
@@ -62,24 +70,24 @@ bool straight_FIO(notebook *hotel, string pattern, int k, int a, int size_patter
 
 bool straight_Size(notebook *hotel, string pattern, int k, int a, int size_pattern) //прямой поиск
 {
-		int count = 0; 
-		int size_hotel = hotel[a].size.length();  		
-		int buff = -1; 
+		int count = 0;                                 //счетчик шаблонов в строке
+		int size_hotel = hotel[a].size.length();       //колличество символов в "Тип номера" (или размер "Тип номера")
+		int buff = -1;                                 //с помощью нее смотрим, чтобы последнии символы шаблона невышли за границу строки "Тип номера"
 		
 		do {
 			buff++;
-			int correspond = 0; 
+			int correspond = 0;                    //счетчик совпадающих символов в строках "Тип номера" и шаблон
 			while((correspond<size_pattern) && (hotel[a].size[buff+correspond] == pattern[correspond])) 
 			{
-				correspond++;			
+				correspond++;		       //проходим по шаблону и сравниваем каждый его символ с символами строки "Тип номера"
 			}
-			if(correspond == size_pattern) 
+			if(correspond == size_pattern)         //если нашли совпадение шаблона и строки "Тип номера", то увеличиваем счетчик шаблонов
 			{
 				count++;
 			}
 	       } 
-		   while(buff<size_hotel-size_pattern); 
-		if(count == k) 
+		   while(buff<size_hotel-size_pattern);        //пока не дошли до конца строки
+		if(count == k)                                 //если нашли нужное колличество шаблонов с строке, то истина
 		{
 			return true;
 		}
