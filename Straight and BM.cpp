@@ -96,30 +96,30 @@ bool straight_Size(notebook *hotel, string pattern, int k, int a, int size_patte
 
 int* preBmBc(string pattern) // таблица сдвигов
 {
-	int pattern_size = pattern.length();	
-	int* table = new int[255];
+	int pattern_size = pattern.length();	                      //размер шаблона (колличесво символов в строке 
+	int* table = new int[255];                                    //динамическая таблица для всех символов алфавита
 	
 	for(int i=0; i<255; i++)
 	{
-		table[i] = pattern_size;
+		table[i] = pattern_size;                              //заполнение таблицы
 	}
 	for(int i=0; i<pattern_size-1; i++)
 	{
-		table[(int)(pattern[i]) + 127] = pattern_size - i -1;
+		table[(int)(pattern[i]) + 127] = pattern_size - i -1; //заполнение тех символов, которые есть в шаблоне
 	}   
 	return table;
 };
 
 int* suffixes(string pattern) //таблица суффиксов
 {	
-	int size_pattern = pattern.length(); 
-	int* suff = new int[size_pattern];
+	int size_pattern = pattern.length();                                   //размер шаблона (колличесво символов в строке 
+	int* suff = new int[size_pattern];                                     //динамическая таблица для всех символовов шаблона
 	
    int f = 0; 
-   suff[size_pattern - 1] = size_pattern; //last suff
-   int g = size_pattern - 1; 
+   suff[size_pattern - 1] = size_pattern;                                      //последняя ячека таблицы равна размеру шаблона
+   int g = size_pattern - 1;                                                   //равно номеру последнего эл в таблице
    
-   for (int i = size_pattern - 2; i >= 0; i--) 
+   for (int i = size_pattern - 2; i >= 0; i--)                                 //от предпоследнего элемента шаблона до первого элемента
    {
       if (i > g && suff[i + size_pattern - 1 - f] < i - g)
          suff[i] = suff[i + size_pattern - 1 - f];
@@ -211,14 +211,14 @@ bool BM_Size(notebook *hotel, string pattern, int k, int a,int *BmGs,int *BmBc,i
 
 void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas) //прямой поиск
 {
-	int size_pattern = pattern.length();
-	int size_pattern2 = Pattern.length();
+	int size_pattern = pattern.length();                           //размер шаблона для строки "ФИО"
+	int size_pattern2 = Pattern.length();                          //размер шаблона для строки "Тип номера"
 	
 	ofstream file1;                                       
 	file1.open("output_1.txt", ios::out);
 	if (file1.is_open())
 	{
-		for(int i=0; i<size_mas; i++)
+		for(int i=0; i<size_mas; i++)                          //от 0 до конца колличества записей
 		{
 			if(straight_FIO(hotel,pattern,k,i,size_pattern) || straight_Size(hotel,Pattern,K,i,size_pattern2))		
 			{
@@ -238,11 +238,11 @@ void straight(notebook *hotel, string pattern, int k, string Pattern, int K, int
 
 void BM(notebook *hotel, string pattern, int k, string Pattern, int K, int size_mas) //БМ поиск
 {
-	int size_pattern = pattern.length(); //m
-	int* BmGs = new int[size_pattern]; 
-	int* BmBc = new int[255]; 
+	int size_pattern = pattern.length(); //
+	int* BmGs = new int[size_pattern];                      //выделение памяти
+	int* BmBc = new int[255];                               //выделение памяти
 	
-	int size_pattern2 = Pattern.length(); //m
+	int size_pattern2 = Pattern.length(); //
 	int* BmGs2 = new int[size_pattern2]; 
 	int* BmBc2 = new int[255]; 
 	
@@ -313,6 +313,7 @@ int main()
 }
 /*
 Teat text:
+2
 0 0 0 0  single 0 Fen_Evgenia_Vladimirovna
 0 0 0 0  four-seater 0 Strelnikova_Elena_Dmitrovna
 */
