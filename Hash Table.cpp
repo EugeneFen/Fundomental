@@ -40,10 +40,10 @@ void Read_File(Notebook *hotel)
 class Hash
 {
 	Notebook *table;
-	int size; //сколько эл добавленно
-	int buffer_size; //размер самого массива
+	int size; 
+	int buffer_size; 
   	
-  	int Hash_One_Function(int key) //первияная хеш-функция
+  	int Hash_One_Function(int key) 
 	{
 		return (key % buffer_size);
 	}	
@@ -97,7 +97,7 @@ class Hash
 	
 	public:
 			
-	Hash(int value) //конструктор
+	Hash(int value) 
 	{
 		buffer_size = value;
 		table = new Notebook[buffer_size];
@@ -109,7 +109,7 @@ class Hash
 		}
 	}
 		
-	bool Add(Notebook hotel) //добавление
+	bool Add(Notebook hotel) 
 	{		
 		int index = Hash_One_Function(hotel.telephone);
 		cout<<index<<":index first"<<endl;
@@ -173,7 +173,7 @@ class Hash
 		return false;
 	}
 		
-	bool Del(int value, string name) //удаление
+	bool Del(int value, string name) 
 	{
 		int index = Hash_One_Function(value);
 		cout<<index<<" index two "<<endl;
@@ -195,7 +195,7 @@ class Hash
 		return false;
 	}
 	
-	int Search(int value) //поиск
+	int Search(int value)
 	{
 		int index = Hash_One_Function(value);
 		int two_index = index;
@@ -212,7 +212,7 @@ class Hash
 		return -1;
 	}	
 		
-	void Write_Table() //выписывание в файл
+	void Write_Table()
 	{
 			ofstream file1;
 			file1.open("output_1.txt", ios::out);
@@ -236,111 +236,11 @@ class Hash
        	file1.close();
 	}
 		
-	~Hash() //диструктор
+	~Hash() 
 	{
 		delete[] table;
 	}; 
 };
-
-void Start(Hash a, Notebook *hotel, int size_hotel)
-{
-	for(int i=0; i<size_hotel; i++)
-	{
-		if (hotel[i].telephone != 0) a.Add(hotel[i]);
-	}
-	
-	int N = 0;
-	do
-	{
-		cout<<endl;
-	cout<<"Choose an action:"<<endl;
-	cout<<"1 - Add"<<endl;
-	cout<<"2 - Search"<<endl;
-	cout<<"3 - Delete"<<endl;
-	cout<<"4 - Write Table in file"<<endl;
-	cout<<"5 - Exit"<<endl;
-	cin>>N;
-	
-	switch(N)
-	{
-	case 1: 
-	{
-	Notebook date;
-	cout<<"Enter the variable you want to add:  ";
-	cin>>date.telephone;
-	//date.telephone = 0;
-	if (a.Add(date)) cout<<"Good"<<endl;
-	else cout<<"Not good"<<endl;
-	}
-	break;
-	
-	case 2: 
-	{
-	int snils;
-	cout<<"Enter the variable you want to search: ";	
-//	cin>>snils;
-	snils = -1;
-
-	if (a.Search(snils) >= 0) cout<<"Index variable in hash table: "<<a.Search(snils)<<endl;
-	else cout<<"this variable is not in the table!"<<a.Search(snils)<<endl;
-	}
-	break;
-	
-	case 3:
-	{
-	int memories;
-	string name;
-	cout<<"Enter the variable you want to delete: ";
-	cin>>memories;
-	cin>>name;
-	if (a.Del(memories, name)) cout<<"Variable removed"<<endl;
-	else cout<<"Variable not deleted"<<endl;
-	}
-	break;
-	
-	case 4:
-	{
-		a.Write_Table();
-		cout<<"Ok"<<endl;
-	}
-	break;	
-	}
-	} while (N != 5);
-}
-
-int main()
-{
-	int number;
-	ifstream file1;
-	file1.open("note.txt");
-	if (file1.is_open())
-	{
-		file1>>number;
-	}
-	else
-	{
-		cout<<"file is not open!";
-	}
-	file1.close();	
-	Notebook *hotel = new Notebook[number];	
-	Read_File(hotel);	
-	//Write_Hotel(hotel,number);
-	
-/*	for(int i=0; i<number; i++)
-	{
-		hotel[i].telephone = "";
-		hotel[i].state = true;
-	}	
-	*/
-	
-	
-	
-	Hash a(number);
-	Start(a,hotel,number);
-	
-	delete[] hotel;
-	return 0;
-}
 
 /*
 text file:
